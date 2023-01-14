@@ -13,18 +13,11 @@ services:
     ports: 
       - 4444:4444
     restart: always
-  cuda:
-      image: nvidia/cuda:11.0.3-devel-ubuntu16.04
-      runtime: nvidia
-      environment:
-        - NVIDIA_VISIBLE_DEVICES=all
-        - NVIDIA_DRIVER_CAPABILITIES compute,utility
-      command: nvidia-smi
-      deploy:
-        resources:
-          reservations:
-            devices:
-              - driver: nvidia
-                count: 1
-                capabilities: [gpu]
+  nvsmi:
+    image: nvidia/cuda:11.0.3-devel-ubuntu16.04
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    command: nvidia-smi
+
 
