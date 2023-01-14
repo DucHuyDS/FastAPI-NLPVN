@@ -28,6 +28,18 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
+
+from ctypes import *
+lib8 = cdll.LoadLibrary('/data/users/CHDHPC/2017902628/cuda/lib64/libcublas.so.11')
+lib1 = cdll.LoadLibrary('/data/users/CHDHPC/2017902628/cuda/lib64/libcudart.so.11.0')
+lib2 = cdll.LoadLibrary('/data/users/CHDHPC/2017902628/cuda/lib64/libcublasLt.so.11')
+lib3 = cdll.LoadLibrary('/data/users/CHDHPC/2017902628/cuda/lib64/libcufft.so.10')
+lib4 = cdll.LoadLibrary('/data/users/CHDHPC/2017902628/cuda/lib64/libcurand.so.10')
+lib5 = cdll.LoadLibrary('/data/users/CHDHPC/2017902628/cuda/lib64/libcusolver.so.10')
+lib6 = cdll.LoadLibrary('/data/users/CHDHPC/2017902628/cuda/lib64/libcusparse.so.11')
+lib7 = cdll.LoadLibrary('/data/users/CHDHPC/2017902628/cuda/lib64/libcudnn.so.8')
+
+
 mapping = {0: "Anger", 1: "Disgust", 2: "Enjoyment", 3: "Fear", 4: "Other", 5: "Sadness", 6: "Surprise"}
 model_phobert = AutoModelForSequenceClassification.from_pretrained(
                     "NDHuy3008/phobert-base-sentiment",
