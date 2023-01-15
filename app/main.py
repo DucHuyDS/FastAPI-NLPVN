@@ -28,26 +28,26 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
-mapping = {0: "Anger", 1: "Disgust", 2: "Enjoyment", 3: "Fear", 4: "Other", 5: "Sadness", 6: "Surprise"}
-model_phobert = AutoModelForSequenceClassification.from_pretrained(
-                    "NDHuy3008/phobert-base-sentiment",
-                    num_labels=7,
-                    label2id={"Anger": 0, "Disgust": 1, "Enjoyment": 2, "Fear": 3, "Other": 4, "Sadness": 5,
-                              "Surprise": 6},
-                    id2label=mapping,
-                )
-tokenizer_phobert = AutoTokenizer.from_pretrained("NDHuy3008/phobert-base-sentiment",
-                                                          do_lower_case=True)
+# mapping = {0: "Anger", 1: "Disgust", 2: "Enjoyment", 3: "Fear", 4: "Other", 5: "Sadness", 6: "Surprise"}
+# model_phobert = AutoModelForSequenceClassification.from_pretrained(
+#                     "NDHuy3008/phobert-base-sentiment",
+#                     num_labels=7,
+#                     label2id={"Anger": 0, "Disgust": 1, "Enjoyment": 2, "Fear": 3, "Other": 4, "Sadness": 5,
+#                               "Surprise": 6},
+#                     id2label=mapping,
+#                 )
+# tokenizer_phobert = AutoTokenizer.from_pretrained("NDHuy3008/phobert-base-sentiment",
+#                                                           do_lower_case=True)
 
-model_roberta = AutoModelForSequenceClassification.from_pretrained(
-                    "NDHuy3008/xlm-roberta-sentiment",
-                    num_labels=7,
-                    label2id={"Anger": 0, "Disgust": 1, "Enjoyment": 2, "Fear": 3, "Other": 4, "Sadness": 5,
-                              "Surprise": 6},
-                    id2label=mapping,
-                )
-tokenizer_roberta = AutoTokenizer.from_pretrained("NDHuy3008/xlm-roberta-sentiment",
-                                                          do_lower_case=True)
+# model_roberta = AutoModelForSequenceClassification.from_pretrained(
+#                     "NDHuy3008/xlm-roberta-sentiment",
+#                     num_labels=7,
+#                     label2id={"Anger": 0, "Disgust": 1, "Enjoyment": 2, "Fear": 3, "Other": 4, "Sadness": 5,
+#                               "Surprise": 6},
+#                     id2label=mapping,
+#                 )
+# tokenizer_roberta = AutoTokenizer.from_pretrained("NDHuy3008/xlm-roberta-sentiment",
+#                                                           do_lower_case=True)
 
 
 
