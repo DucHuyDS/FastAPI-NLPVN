@@ -7,18 +7,23 @@ services:
       - 8000:8000
     depends_on:
       - selenium  
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [ gpu ]
+
   selenium:
     image: selenium/standalone-chrome
     container_name: selenium
     ports: 
       - 4444:4444
     restart: always
-
+  test:
+    image: nvidia/cuda
+    command: nvidia-smi
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
               
 
 
