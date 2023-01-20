@@ -130,7 +130,7 @@
 
 <script>
   const number = "{{number}}";
-  const socket = new WebSocket('wss://' + window.location.host + '/ws/' + number);
+  const socket = new WebSocket('ws://' + window.location.host + '/ws/' + number);
 
   const phobert_btn = document.getElementById('phobert-btn');
   const phobert_text = document.getElementById('phobert-text');
