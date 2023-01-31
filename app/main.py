@@ -45,7 +45,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 
-phobert = "phobert-base-sentiment"
+phobert = "phobert-large-sentiment"
 roberta = "xlm-roberta-sentiment"
 
 
