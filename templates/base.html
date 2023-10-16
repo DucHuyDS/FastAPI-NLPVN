@@ -5,27 +5,20 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link href="{{ url_for('static', path='/style/css/bootstrap-grid.css') }}" rel="stylesheet">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  <title>TextML</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/images/fast.png') }}">
   <link href="{{ url_for('static', path='/style/css/bootstrap.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', path='/style/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', path='/style/css/bootstrap-reboot.css') }}" rel="stylesheet">
-  <script language="JavaScript" type="text/javascript"
-    src="{{ url_for('static', path='/style/js/bootstrap.bundle.min.js') }}"></script>
-  <script language="JavaScript" type="text/javascript" src="{{ url_for('static', path='/style/js/bootstrap.js') }}">
-  </script>
+
   <script language="JavaScript" type="text/javascript"
     src="{{ url_for('static', path='/style/js/bootstrap.bundle.js') }}"></script>
-
   <script language="JavaScript" type="text/javascript" src="{{ url_for('static', path='/style/js/scripts.js') }}">
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 
 <body>
   {% block content %}
   {% endblock %}
 </body>
-
 </html>
