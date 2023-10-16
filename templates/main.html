@@ -3,7 +3,7 @@
 <main>
   <div class="container py-4">
     <header class="pb-3 mb-4 border-bottom">
-      <h3>Link to a Facebook post (Vietnamese - max 50 comments )</h3>
+      <h3>Link to a Facebook post (Vietnamese ~ 50 comments )</h3>
       <form>
         <div class="d-flex align-items-center text-dark text-decoration-none">
           <input class="fs-6 form-control" id="link" required></input>
@@ -26,16 +26,14 @@
       <div class="navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" id="phobert" role="button">PhoBERT+Transformers</a>
+            <a class="nav-link active" id="tf" role="button">Transformers+PhoBERT</a>
 
           </li>
-
-
           <li class="nav-item">
-            <a class="nav-link" id="roberta" role="button">RoBERTa+Transformers</a>
+            <a class="nav-link" id="rnn" role="button">RNN+PhoBERT</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="cnn" role="button">CNN+Word2Vec</a>
+            <a class="nav-link" id="cnn" role="button">CNN+PhoBERT</a>
           </li>
           <!-- <li class="nav-item">
                       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -44,46 +42,46 @@
       </div>
     </nav>
 
-    <div class="row align-items-md-stretch" id="phobert-content">
-      <img alt="" class="mb-4" src="{{ url_for('static', path='/images/phober.png') }}" style="max-height:100px">
-      <button class="btn btn-primary mb-4 border-bottom" disabled id="phobert-btn"
-        onclick="sendmess(this.value,this.id)" value="phobert">Predict
+    <div class="row align-items-md-stretch" id="tf-content">
+      <img alt="" class="mb-4" src="{{ url_for('static', path='/images/tf.png') }}" style="max-height:100px">
+      <button class="btn btn-primary mb-4 border-bottom" disabled id="tf-btn"
+        onclick="sendmess(this.value,this.id)" value="tf">Predict
       </button>
       <div class="col-md-12 mb-4">
-        <textarea class="form-control" id="phobert-text" readonly rows="3" style="height:250px"></textarea>
+        <textarea class="form-control" id="tf-text" readonly rows="3" style="height:250px"></textarea>
       </div>
       <div class="col-md-6">
 
-        <canvas class="h-100 p-6 bg-light border rounded-3" id="myChart-phobert-pie"
+        <canvas class="h-100 p-6 bg-light border rounded-3" id="myChart-tf-pie"
           style="width:100%;max-width:700px"></canvas>
 
       </div>
       <div class="col-md-6">
 
-        <canvas class="h-100 p-6 bg-light border rounded-3" id="myChart-phobert-bar"
+        <canvas class="h-100 p-6 bg-light border rounded-3" id="myChart-tf-bar"
           style="width:100%;max-width:700px"></canvas>
 
       </div>
     </div>
 
-    <div class="row align-items-md-stretch" id="roberta-content" style="display:none">
-      <img alt="" class="mb-4" src="{{ url_for('static', path='/images/robertaaa.png') }}" style="max-height:100px">
+    <div class="row align-items-md-stretch" id="rnn-content" style="display:none">
+      <img alt="" class="mb-4" src="{{ url_for('static', path='/images/rnn.png') }}" style="max-height:100px">
 
-      <button class="btn btn-primary mb-4 border-bottom" disabled id="roberta-btn"
-        onclick="sendmess(this.value,this.id)" value="roberta">Predict
+      <button class="btn btn-primary mb-4 border-bottom" disabled id="rnn-btn"
+        onclick="sendmess(this.value,this.id)" value="rnn">Predict
       </button>
       <div class="col-md-12 mb-4">
-        <textarea class="form-control" id="roberta-text" readonly rows="3" style="height:250px"></textarea>
+        <textarea class="form-control" id="rnn-text" readonly rows="3" style="height:250px"></textarea>
       </div>
       <div class="col-md-6">
 
-        <canvas class="h-100 p-6 bg-light border rounded-3" id="myChart-roberta-pie"
+        <canvas class="h-100 p-6 bg-light border rounded-3" id="myChart-rnn-pie"
           style="width:100%;max-width:700px"></canvas>
 
       </div>
       <div class="col-md-6">
 
-        <canvas class="h-100 p-6 bg-light border rounded-3" id="myChart-roberta-bar"
+        <canvas class="h-100 p-6 bg-light border rounded-3" id="myChart-rnn-bar"
           style="width:100%;max-width:700px"></canvas>
 
       </div>
@@ -115,7 +113,8 @@
 
 
     <footer class="pt-3 mt-4 text-muted border-top">
-      &copy; 2022
+      <p> &copy; Author: Nguyen Duc Huy DS UEH K46 2023</p>
+      <p>Dataset:  <a href="https://drive.google.com/drive/folders/1HooABJyrddVGzll7fgkJ6VzkG_XuWfRu">link</a> </p>
     </footer>
   </div>
   <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
@@ -132,11 +131,11 @@
   const number = "{{number}}";
   const socket = new WebSocket('ws://' + window.location.host + '/ws/' + number);
 
-  const phobert_btn = document.getElementById('phobert-btn');
-  const phobert_text = document.getElementById('phobert-text');
+  const tf_btn = document.getElementById('tf-btn');
+  const tf_text = document.getElementById('tf-text');
 
-  const roberta_btn = document.getElementById('roberta-btn');
-  const roberta_text = document.getElementById('roberta-text');
+  const rnn_btn = document.getElementById('rnn-btn');
+  const rnn_text = document.getElementById('rnn-text');
 
 
   const cnn_btn = document.getElementById('cnn-btn');
@@ -147,7 +146,26 @@
   const text_area_main = document.getElementById('exampleFormControlTextarea');
   const loading = document.getElementById('loading');
   let list_comments = []
+  let list_predict = []
 
+
+  function process_text(data, btn, text_area){
+    if (data.label ==='done'){
+      btn.disabled = false
+      } else if ((data.sentence).length > 200) {
+        text_area.innerHTML += '[' + data.label + ']' + (data.sentence).slice(0, 200) + '...\n'
+      }  else {
+        text_area.innerHTML += '[' + data.label + ']' + data.sentence + '\n'
+      }
+      text_area.scrollTop = text_area.scrollHeight 
+  }
+  function update_chart(bar, pie, data){
+    bar.data.datasets[0].data = data['y_bar'];
+    pie.data.datasets[0].data = data['y_pie']
+    bar.update();
+    pie.update();
+    
+  }
 
   socket.onmessage = function (data) {
     data = JSON.parse(data.data)
@@ -158,77 +176,63 @@
       click.disabled = false
       click.innerHTML = "Craw"
       list_comments = data.list_comments
-      phobert_btn.disabled = false
-      roberta_btn.disabled = false
+      list_predict = data.list_predict
+      tf_btn.disabled = false
+      rnn_btn.disabled = false
       cnn_btn.disabled = false
 
     }
-    if (data.type === 'error.!') {
+    else if (data.type === 'error.!') {
       loading.innerHTML = "error, please try another link!"
       loading.style.color = 'red'
       click.disabled = false
       click.innerHTML = "Craw"
-      list_comments = data.list_comments
+      list_comments = ''
+      list_predict = ''
 
-    } else if (data.type === 'phobert') {
-      if ((data.sentence).length > 100) {
-        phobert_text.innerHTML += '[' + data.label + ']' + (data.sentence).slice(0, 100) + '...\n'
-      } else {
-        phobert_text.innerHTML += '[' + data.label + ']' + data.sentence + '\n'
-      }
+    }  
+    else if (data.type === 'tf') {
+      process_text(data, tf_btn, tf_text)
 
-      phobert_btn.disabled = false
-    } else if (data.type === 'roberta') { //(data.content).slice(0,140) + ' ...\n'
-      if ((data.sentence).length > 100) {
-        roberta_text.innerHTML += '[' + data.label + ']' + (data.sentence).slice(0, 100) + '...\n'
-      } else {
+    } else if (data.type === 'rnn') { 
+      process_text(data, rnn_btn, rnn_text)
 
-        roberta_text.innerHTML += '[' + data.label + ']' + data.sentence + '\n'
-      }
-      roberta_btn.disabled = false
     } else if (data.type === 'cnn') {
-      if ((data.sentence).length > 100) {
-        cnn_text.innerHTML += '[' + data.label + ']' + (data.sentence).slice(0, 100) + '...\n'
-      } else {
+      process_text(data, cnn_btn, cnn_text)
 
-        cnn_text.innerHTML += '[' + data.label + ']' + data.sentence + '\n'
-      }
-
-      cnn_btn.disabled = false
     } else if (data.type === 'draw') {
       switch (data.model) {
-        case 'phobert':
-          phobert_bar.data.datasets[0].data = data['y_bar'];
-          phobert_pie.data.datasets[0].data = data['y_pie']
-          phobert_bar.update();
-          phobert_pie.update();
+        case 'tf':
+          update_chart(tf_bar, tf_pie, data)
+
           break
-        case 'roberta':
-          roberta_bar.data.datasets[0].data = data['y_bar'];
-          roberta_pie.data.datasets[0].data = data['y_pie']
-          roberta_bar.update();
-          roberta_pie.update();
+        case 'rnn':
+          update_chart(rnn_bar, rnn_pie, data)
           break
         case 'cnn':
-          cnn_bar.data.datasets[0].data = data['y_bar'];
-          cnn_pie.data.datasets[0].data = data['y_pie']
-          cnn_bar.update();
-          cnn_pie.update();
+          update_chart(cnn_bar, cnn_pie, data)
+          
           break
       }
 
     } else {
-      if ((data.content).length > 140) {
-        text_area_main.innerHTML += (data.content).slice(0, 140) + '...\n'
+      if ((data.content).length > 200) {
+        text_area_main.innerHTML += (data.content).slice(0, 200) + '...\n'
       } else {
         text_area_main.innerHTML += data.content + '\n'
       }
-
+      text_area_main.scrollTop = text_area_main.scrollHeight
     }
   }
   click.addEventListener('click', function (event) {
     event.preventDefault();
     text_area_main.innerHTML = ""
+    tf_text.innerHTML = ""
+    rnn_text.innerHTML = ""
+    cnn_text.innerHTML = ""
+    tf_btn.disabled = true
+    rnn_btn.disabled = true
+    cnn_btn.disabled = true
     context = {
       'type': 'link',
       'link': link.value,
@@ -253,7 +257,8 @@
     context = {
       'type': 'model',
       'model': value,
-      'list_comments': list_comments
+      'list_comments': list_comments,
+      'list_predict': list_predict
     }
 
     socket.send(JSON.stringify(context))
@@ -263,13 +268,13 @@
 
   var xValues = ["Enjoyment", "Disgust", "Sadness", "Anger", "Fear", 'Surprise', 'Other'];
 
-  var y_phobert_pie = [15, 14, 14, 14, 14, 14, 15];
-  var y_roberta_pie = [15, 14, 14, 14, 14, 14, 15];
-  var y_cnn_pie = [15, 14, 14, 14, 14, 14, 15];
+  var y_tf_pie = [0, 0, 0, 0, 0, 0, 100];
+  var y_rnn_pie = [0, 0, 0, 0, 0, 0, 100];
+  var y_cnn_pie = [0, 0, 0, 0, 0, 0, 100];
 
 
-  var y_phobert_bar = [0, 0, 0, 0, 0, 0, 0];
-  var y_roberta_bar = [0, 0, 0, 0, 0, 0, 0];
+  var y_tf_bar = [0, 0, 0, 0, 0, 0, 0];
+  var y_rnn_bar = [0, 0, 0, 0, 0, 0, 0];
   var y_cnn_bar = [0, 0, 0, 0, 0, 0, 0];
   var barColors = [
     "#b91d47",
@@ -277,19 +282,19 @@
     "#2b5797",
     "#e8c3b9",
     "#1e7145",
-    "#1e7146",
-    "#1e7147"
+    "#9500ff",
+    "#e8e409"
 
   ];
 
 
-  phobert_pie = new Chart("myChart-phobert-pie", {
+  tf_pie = new Chart("myChart-tf-pie", {
     type: "pie",
     data: {
       labels: xValues,
       datasets: [{
         backgroundColor: barColors,
-        data: y_phobert_pie
+        data: y_tf_pie
       }]
     },
     options: {
@@ -299,13 +304,13 @@
       }
     }
   });
-  phobert_bar = new Chart("myChart-phobert-bar", {
+  tf_bar = new Chart("myChart-tf-bar", {
     type: "bar",
     data: {
       labels: xValues,
       datasets: [{
         backgroundColor: barColors,
-        data: y_phobert_bar
+        data: y_tf_bar
       }]
     },
     options: {
@@ -318,13 +323,13 @@
       }
     }
   });
-  roberta_pie = new Chart("myChart-roberta-pie", {
+  rnn_pie = new Chart("myChart-rnn-pie", {
     type: "pie",
     data: {
       labels: xValues,
       datasets: [{
         backgroundColor: barColors,
-        data: y_roberta_pie
+        data: y_rnn_pie
       }]
     },
     options: {
@@ -335,13 +340,13 @@
       }
     }
   });
-  roberta_bar = new Chart("myChart-roberta-bar", {
+  rnn_bar = new Chart("myChart-rnn-bar", {
     type: "bar",
     data: {
       labels: xValues,
       datasets: [{
         backgroundColor: barColors,
-        data: y_roberta_bar
+        data: y_rnn_bar
       }]
     },
     options: {
