@@ -8,6 +8,7 @@ import pathlib
 from utils import clean_html
 from webdriver_manager.chrome import ChromeDriverManager
 import asyncio
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -28,7 +29,7 @@ async def get_comments(link, websocket):
     options.add_argument('--disable-infobars')
     options.add_argument('--remote-debugging-port=9222')
 
-    driver= webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
     driver.get('https://www.facebook.com/')
     driver.execute_script("javascript: void(function () {function setCookie(t) {var list = t.split('; ');console.log(list);for (var i = list.length - 1; i >= 0; i--) {var cname = list[i].split('=')[0];var cvalue = list[i].split('=')[1];var d = new Date();d.setTime(d.getTime() + (7 * 24 * 60 * 60 * 1000));var expires = ';domain=.facebook.com;expires=' + d.toUTCString();document.cookie = cname + '=' + cvalue + '; ' + expires;}}function hex2a(hex) {var str = '';for (var i = 0; i < hex.length; i += 2) {var v = parseInt(hex.substr(i, 2), 16);if (v) str += String.fromCharCode(v);}return str;}setCookie('"+os.getenv('cookie')+"');location.href = 'https://facebook.com';})();")
 
