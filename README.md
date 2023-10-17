@@ -15,3 +15,6 @@
    python app/main.py
    ```
 ## Demo
+
+https://github.com/DucHuyDS/FastAPI-NLPVN/assets/96015433/4e84388e-48ce-4d07-b7ad-c3a714b2f027
+
