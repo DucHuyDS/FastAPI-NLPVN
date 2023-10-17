@@ -14,4 +14,4 @@
    ```bash
    python app/main.py
    ```
-## Example project
+## Demo
